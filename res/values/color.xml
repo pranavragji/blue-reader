@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="darkgray">#ff444444</color>
+	<color name="black">#ff000000</color>
+	<color name="red">#ffff0000</color>
+	<color name="green">#ff00ff00</color>
+	<color name="lightgray">#ffcccccc</color>
+	<color name="white">#ffffffff</color>
+	<color name="yellow">#ffffff00</color>
+	<color name="blue">#ff0000ff</color>
+	<color name="gray">#ff888888</color>
+	<color name="magenta">#ffff00ff</color>
+	<color name="cyan">#ff00ffff</color>
+	<color name="orange">#fff79e02</color>
+	<color name="grayblue">#ff52aaef</color>
+	<color name="transparent">#00000000</color>
+	<color name="trans">#00ffffff</color>
+	<color name="transpress">#21000000</color>
+	<color name="translucence">#e0000000</color>
+	<!--内容页书名，作者名颜色 -->
+	<color name="content_title_color">#623e00</color>
+	<color name="btn_ppressed_color">#88ffd200</color>
+	<!-- 新dialog的颜色 -->
+	<color name="dialog_title_color">#ff805015</color>
+	<color name="dialog_content_color">#ffecd681</color>
+	<color name="dialog_list_textcolor">#ffb9a052</color>
+</resources>
