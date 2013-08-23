@@ -38,7 +38,7 @@ class BookTableConfig {
 	static String getCreateTableBookSQL () {
 		if (createTableBookSQL == null) {
 			createTableBookSQL = String.format(
-					"CREATE TABLE TABLE_NAME (_id integer primary key AUTOINCREMENT,%s text not null,%s varchar,%s varchar,%s varchar,%s varchar,%s varchar,%s varchar,%s integer,%s varchar,%s varchar,%s varchar,%s varchar,%s integer,%s bigint,%s bigint，COL_CHARSET varchar,%s varchar,%s integer,%s integer, %s integer)",
+					"CREATE TABLE TABLE_NAME (_id integer primary key AUTOINCREMENT,%s text not null,%s varchar,%s varchar,%s varchar,%s varchar,%s varchar,%s varchar,%s integer,%s varchar,%s varchar,%s varchar,%s varchar,%s bigint,%s bigint,%s bigint，COL_CHARSET varchar,%s varchar,%s integer,%s integer, %s integer)",
 					COL_BOOKNAME       ,
 					COL_AUTHOR         ,
 					COL_PUBLISHED      ,

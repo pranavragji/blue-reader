@@ -30,7 +30,7 @@ public class BookConfig {
 
 	static {
 		sFromatSupport = new HashMap<String, String>();
-		sFromatSupport.put(".txt", FILE_TYPE_TXT);
+		sFromatSupport.put("txt", FILE_TYPE_TXT);
 	}
 
 	/**
@@ -42,6 +42,7 @@ public class BookConfig {
 	 * @return
 	 */
 	public static String judgeFileType(String file) {
-
+		String extension = Tools.getExtension(file);
+		return sFromatSupport.get(extension.toLowerCase());
 	}
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 import android.content.ContentValues;
 
+import com.mouselee.bluereader.util.BookConfig;
+import com.mouselee.bluereader.util.Tools;
 import com.mouselee.bluereader.vo.Book;
 
 /**
@@ -41,7 +43,16 @@ public class ScanFileController {
 				traverseDir(dir, list);
 			} else {
 				// if it is file scan it and put into list.
-
+				String path = f.getPath();
+				String format = BookConfig.judgeFileType(path);
+				if (format != null) {
+					// First scanning only add the message provider from filr
+					Book book = new Book();
+					book.setBookname(Tools.getFileNameWithoutExten(path));
+					book.setBookpath(path);
+					book.setBooktype(format);
+					//book.setFilesize(f.length());
+				}
 			}
 			
 		}

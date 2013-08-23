@@ -46,7 +46,7 @@ public class Book implements Parcelable, Serializable {
 	/** The book's file description */
 	private String description;
 	/** The book's charectors sizes */
-	private int filesize;
+	private long filesize;
 	/** The time of this book last read by user */
 	private long lastReadTime;
 	/** The book's last update millions */
@@ -281,7 +281,7 @@ public class Book implements Parcelable, Serializable {
 	/**
 	 * @return the filesize
 	 */
-	public int getFilesize() {
+	public long getFilesize() {
 		return filesize;
 	}
 
@@ -289,7 +289,7 @@ public class Book implements Parcelable, Serializable {
 	 * @param filesize
 	 *            the filesize to set
 	 */
-	public void setFilesize(int filesize) {
+	public void setFilesize(long filesize) {
 		this.filesize = filesize;
 	}
 
