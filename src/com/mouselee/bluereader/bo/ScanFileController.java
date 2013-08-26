@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Context;
 
+import com.mouselee.bluereader.dao.BooksDao;
 import com.mouselee.bluereader.util.BookConfig;
 import com.mouselee.bluereader.util.Tools;
 import com.mouselee.bluereader.vo.Book;
@@ -20,9 +22,30 @@ import com.mouselee.bluereader.vo.Book;
  * @Date 下午4:44:45 2013-8-22
  */
 public class ScanFileController {
+	
+	private Context context;
+	
 
+	/**
+	 * @Author Aaron Lee at 下午5:46:03 2013-8-23
+	 * @param context
+	 */
+	public ScanFileController(Context context) {
+		super();
+		this.context = context;
+	}
+
+	/**
+	 * 
+	 *
+	 * @Author Aaron Lee at 下午7:44:24 2013-8-23
+	 * @param scanRoot
+	 * @return
+	 */
 	public List<Book> scanDirector(String scanRoot) {
-		List<Book> list = null;
+		List<Book> list = new ArrayList<Book>();
+		traverseDir(new File(BookConfig.BASIC_DIRECTOR), list);
+		BooksDao.getInstance(context).addBookList(list);
 		return list;
 	}
 
@@ -52,6 +75,7 @@ public class ScanFileController {
 					book.setBookpath(path);
 					book.setBooktype(format);
 					//book.setFilesize(f.length());
+					list.add(book);
 				}
 			}
 			
