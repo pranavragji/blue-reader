@@ -7,31 +7,30 @@ package com.mouselee.bluereader.dao;
  * @author Aaron Lee
  * @Date 下午12:03:24 2013-8-22
  */
-class BookTableConfig {
+public class BookTableConfig {
 	
-	static final String TABLE_NAME = "book";
-	static final String ID = "_id";
-	
-	static final String COL_BOOKNAME        = "bookname"       ;        
-	static final String COL_AUTHOR          = "author"         ;          
-	static final String COL_PUBLISHED       = "published"      ;       
-	static final String COL_PUBLISHER       = "publisher"      ;       
-	static final String COL_SELLER          = "seller"         ;          
-	static final String COL_CATEGORY        = "category"       ;        
-	static final String COL_BOOKTYPE        = "booktype"       ;        
-	static final String COL_STARTS          = "starts"         ;          
-	static final String COL_LANGUAGE        = "language"       ;        
-	static final String COL_IMGPATH         = "imgpath"        ;         
-	static final String COL_BOOKPATH        = "bookpath"       ;        
-	static final String COL_DESCRIPTION     = "description"    ;     
-	static final String COL_FILESIZE        = "filesize"       ;        
-	static final String COL_LASTREADTIME    = "lastReadTime"   ;    
-	static final String COL_LASTUPADATETIME = "lastUpadateTime"; 
-	static final String COL_CHARSET         = "charset"        ;         
-	static final String COL_FONT            = "font"           ;            
-	static final String COL_FONTSIZE        = "fontSize"       ;        
-	static final String COL_CURINDEX        = "curIndex"       ;
-	static final String COL_SID             = "sid";
+	public static final String TABLE_NAME = "book";
+	public static final String ID = "_id";
+	public static final String COL_BOOKNAME        = "bookname"       ;        
+	public static final String COL_AUTHOR          = "author"         ;          
+	public static final String COL_PUBLISHED       = "published"      ;       
+	public static final String COL_PUBLISHER       = "publisher"      ;       
+	public static final String COL_SELLER          = "seller"         ;          
+	public static final String COL_CATEGORY        = "category"       ;        
+	public static final String COL_BOOKTYPE        = "booktype"       ;        
+	public static final String COL_STARTS          = "starts"         ;          
+	public static final String COL_LANGUAGE        = "language"       ;        
+	public static final String COL_IMGPATH         = "imgpath"        ;         
+	public static final String COL_BOOKPATH        = "bookpath"       ;        
+	public static final String COL_DESCRIPTION     = "description"    ;     
+	public static final String COL_FILESIZE        = "filesize"       ;        
+	public static final String COL_LASTREADTIME    = "lastReadTime"   ;    
+	public static final String COL_LASTUPADATETIME = "lastUpadateTime"; 
+	public static final String COL_CHARSET         = "charset"        ;         
+	public static final String COL_FONT            = "font"           ;            
+	public static final String COL_FONTSIZE        = "fontSize"       ;        
+	public static final String COL_CURINDEX        = "curIndex"       ;
+	public static final String COL_SID             = "sid";
 	
 	static String createTableBookSQL;
 	
