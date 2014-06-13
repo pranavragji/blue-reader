@@ -1,5 +1,8 @@
 package com.mouselee.bluereader.dao;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -7,32 +10,37 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.os.Environment;
 
 
 public class DBHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME = "reader.db";
+	private static String DATABASE_NAME = "reader.db";
 	private static DBHelper helper;
+	private static final int VERSION_CODE = 2;
 	
-	private DBHelper(Context context, int versionCode ) {
-		super(context, DATABASE_NAME, null, versionCode);
+	static{
+		if (com.mouselee.bluereader.BuildConfig.DEBUG) {
+			File dbFile = new File(Environment.getExternalStorageDirectory(), DATABASE_NAME);
+			if (!dbFile.exists())  {
+				try {
+					dbFile.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			DATABASE_NAME = dbFile.getPath();
+		}
+	}
+	
+	private DBHelper(Context context) {
+		super(context, DATABASE_NAME, null, VERSION_CODE);
 	}
 
 	public static DBHelper getHelper(Context context) {
 		if (helper == null) {
-			/*-	数据库版本跟软件版本统一，无需每次都卸载再安装
-			 * 
-			 * */
-			
-			PackageManager pm = context.getPackageManager();  
-	        PackageInfo pi = null;
-			try {
-				pi = pm.getPackageInfo(context.getPackageName(), 0);
-			} catch (NameNotFoundException e) {
-				e.printStackTrace();
-			}  
-	        int versionCode = pi.versionCode ; 
-			helper = new DBHelper(context, versionCode);
+			helper = new DBHelper(context);
 		}
 		return helper;
 	}
@@ -44,8 +52,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("drop table if exists "+BookTableConfig.TABLE_NAME);
-		onCreate(db);
+		if (newVersion > oldVersion) {
+			db.execSQL("drop table if exists "+BookTableConfig.TABLE_NAME);
+			onCreate(db);
+		}
 	}
 
 }

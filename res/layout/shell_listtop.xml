@@ -2,15 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shelltop"
+    android:background="@drawable/shelltop_v"
     android:orientation="horizontal" >
 
-    <ImageView
+   <!--  <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shelltop_v"
         android:src="@drawable/shelltop_text" >
-    </ImageView>
+    </ImageView> -->
 
     <Button
         android:id="@+id/btnBookStore"
@@ -22,7 +22,8 @@
         android:background="@drawable/btn_bookstore"
         android:text="@string/bookstore"
         android:textColor="@color/white"
-        android:textSize="14sp" >
+        android:textSize="14sp"
+        android:onClick="onButtonClick" >
     </Button>
 
     <Button
@@ -34,7 +35,8 @@
         android:layout_toRightOf="@id/btnBookStore"
         android:background="@drawable/btn_bookstore"
         android:text="更新"
-        android:textColor="@android:color/white" >
+        android:textColor="@android:color/white"
+        android:onClick="onButtonClick" >
     </Button>
 
     <Button
@@ -47,7 +49,8 @@
         android:background="@drawable/btn_bookstore"
         android:text="关于"
         android:textColor="@android:color/white"
-        android:visibility="gone" >
+        android:visibility="gone"
+        android:onClick="onButtonClick" >
     </Button>
 
     <Button
@@ -60,7 +63,8 @@
         android:background="@drawable/outclickbutton"
         android:text="@string/editbook"
         android:textColor="@android:color/white"
-        android:textSize="14sp" >
+        android:textSize="14sp"
+        android:onClick="onButtonClick" >
     </Button>
 
     <Button
@@ -71,7 +75,8 @@
         android:layout_marginTop="3dp"
         android:layout_toLeftOf="@+id/btnEdit"
         android:background="@drawable/listoutclick"
-        android:textColor="@color/yellow" >
+        android:textColor="@color/yellow"
+        android:onClick="onButtonClick" >
     </Button>
 
     <Button
@@ -81,7 +86,8 @@
         android:layout_marginTop="3dp"
         android:layout_toLeftOf="@+id/btnBooklist"
         android:background="@drawable/shelfoutclick"
-        android:textColor="@color/yellow" >
+        android:textColor="@color/yellow"
+        android:onClick="onButtonClick" >
     </Button>
 
 </RelativeLayout>

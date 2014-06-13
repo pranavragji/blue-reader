@@ -25,24 +25,24 @@ import android.widget.TextView;
  * @author Aaron Lee
  * @Date 9:58:08 PM Nov 5, 2013
  */
-public class ListAdapter extends CursorAdapter {
+public class ListFrameAdapter extends CursorAdapter {
 
 	private Activity mActivity;
 	private LayoutInflater inflater;
 	private boolean editMode;
 	
-	public ListAdapter(Context context, Cursor c) {
+	public ListFrameAdapter(Context context, Cursor c) {
 		super(context, c, false);
 		init(context, c);
 	}
 
-	public ListAdapter(Context context, Cursor c, boolean autoRequery) {
+	public ListFrameAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 		init(context, c);
 	}
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public ListAdapter(Context context, Cursor c, int flags) {
+	public ListFrameAdapter(Context context, Cursor c, int flags) {
 		super(context, c, flags);
 		init(context, c);
 	}
@@ -73,7 +73,11 @@ public class ListAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		ViewHolder holder = (ViewHolder) view.getTag();
-		holder.ivwBookIcon.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(BookTableConfig.COL_IMGPATH)))) ;
+		try {
+			holder.ivwBookIcon.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndexOrThrow(BookTableConfig.COL_IMGPATH)))) ;
+		} catch (Exception e) {
+			holder.ivwBookIcon.setImageResource(R.drawable.fileicon_txt);
+		}
 		holder.tvwBookName.setText(cursor.getString(cursor.getColumnIndexOrThrow(BookTableConfig.COL_BOOKNAME)));
 		holder.tvwAuthor.setText(cursor.getString(cursor.getColumnIndexOrThrow(BookTableConfig.COL_AUTHOR)));
 		if (editMode) {

@@ -4,13 +4,12 @@
 package com.mouselee.bluereader.shell;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 /**
  * @author kang
  *
  */
-public class ShellFragment extends Fragment {
+public class ShellFragment extends CursorFragment {
 	
 	public static ShellFragment newInstance(String tag) {
 		ShellFragment f = new ShellFragment();
@@ -19,4 +18,12 @@ public class ShellFragment extends Fragment {
 		f.setArguments(args);
 		return f;
 	}
+
+	@Override
+	public void refreshDate() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 }

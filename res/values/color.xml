@@ -16,7 +16,7 @@
 	<color name="transparent">#00000000</color>
 	<color name="trans">#00ffffff</color>
 	<color name="transpress">#21000000</color>
-	<color name="translucence">#e0000000</color>
+	<color name="translucence">#80000000</color>
 	<!--内容页书名，作者名颜色 -->
 	<color name="content_title_color">#623e00</color>
 	<color name="btn_ppressed_color">#88ffd200</color>

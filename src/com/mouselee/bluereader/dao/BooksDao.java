@@ -106,6 +106,11 @@ public class BooksDao {
 		db.update(TABLE_NAME, values, ID + " = ? ", new String[]{String.valueOf(id)});
 	}
 	
+	public Cursor queryBookList()  {
+		return db.query(true, TABLE_NAME, null, null, null, null, null,
+				BookTableConfig.COL_LASTREADTIME + " desc", " 0, 1");
+	}
+	
 	/**
 	 * Check whether is in databases,if true, update the data.if not ,insert one.
 	 *

@@ -4,10 +4,9 @@
 package com.mouselee.bluereader.shell;
 
 import com.mouselee.bluereader.R;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,13 @@ import android.widget.ListView;
  * @author kang
  *
  */
-public class ListFragment extends Fragment {
+@SuppressLint("NewApi")
+public class ListFragment extends CursorFragment {
 	
 	private Activity mActivity;
 	private LayoutInflater inflater;
 	private ListView lvwMain;
+	private ListFrameAdapter adapter;
 	
 	public static ListFragment newInstance(String tag) {
 		ListFragment f = new ListFragment();
@@ -31,10 +32,6 @@ public class ListFragment extends Fragment {
 		return f;
 	}
 
-	public ListFragment() {
-		super();
-		mActivity  = getActivity();
-	}
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
@@ -42,6 +39,7 @@ public class ListFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mActivity  = getActivity();
 		inflater = LayoutInflater.from(mActivity);
 	}
 
@@ -50,7 +48,27 @@ public class ListFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View contentView = inflater.inflate(R.layout.shell_list_content, null);
 		lvwMain = (ListView) contentView;
+		adapter = new ListFrameAdapter(mActivity, valuesCursor);
+		lvwMain.setAdapter(adapter);
 		return contentView;
 	}
+
+	
+	/* (non-Javadoc)
+	 * @see android.support.v4.app.Fragment#onStart()
+	 */
+	@Override
+	public void onStart() {
+		refreshDate();
+		super.onStart();
+	}
+
+	@Override
+	public void refreshDate() {
+		adapter.changeCursor(valuesCursor);
+		adapter.notifyDataSetChanged();
+		
+	}
+
 	
 }

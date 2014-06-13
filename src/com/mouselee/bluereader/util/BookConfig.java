@@ -17,7 +17,7 @@ public class BookConfig {
 
 	public static final String BASIC_DIRECTOR = Environment
 			.getExternalStorageDirectory().getPath()
-			+ File.pathSeparatorChar
+			+ File.separatorChar
 			+ "bluereader";
 
 	public final static String FILE_TYPE_TXT = "txt";

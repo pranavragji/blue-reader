@@ -23,14 +23,23 @@ import com.mouselee.bluereader.vo.Book;
  */
 public class ScanFileController {
 	
+	private static ScanFileController instance;
+	
 	private Context context;
 	
+	
+	public static ScanFileController getInstance(Context context) {
+		if(instance == null) {
+			instance = new ScanFileController(context);
+		} 
+		return instance;
+	}
 
 	/**
 	 * @Author Aaron Lee at 下午5:46:03 2013-8-23
 	 * @param context
 	 */
-	public ScanFileController(Context context) {
+	private ScanFileController(Context context) {
 		super();
 		this.context = context;
 	}
