@@ -67,10 +67,6 @@ public class FrameActivity extends FragmentActivity {
 		setShowFragment(SharePreferencesDao.getInstance(this).getLastShellState());
 //		refreshBookList();
 	}
-
-
-
-	
 	
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onDestroy()
@@ -155,7 +151,7 @@ public class FrameActivity extends FragmentActivity {
 	 * 
 	 */
 	private void refreshBookList() {
-		Cursor bookCursor = dao.queryBookList();
+ 		Cursor bookCursor = dao.queryBookList();
 		mCurrentFragment.updateCursor(bookCursor);
 	}
 	

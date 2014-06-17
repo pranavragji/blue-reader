@@ -12,7 +12,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import static com.mouselee.bluereader.dao.BookTableConfig.*;
 
 /**
  * The only way to access databases of book.
@@ -53,26 +52,26 @@ public class BooksDao {
 	 */
 	public void addSingleBook(Book book) {
 		ContentValues values = new ContentValues();
-		values.put(COL_BOOKNAME, book.getBookname());
-		values.put(COL_AUTHOR, book.getAuthor());
-		values.put(COL_PUBLISHED, book.getPublished());
-		values.put(COL_PUBLISHER, book.getPublisher());
-		values.put(COL_SELLER, book.getSeller());
-		values.put(COL_CATEGORY, book.getCategory());
-		values.put(COL_BOOKTYPE, book.getBooktype());
-		values.put(COL_STARTS, book.getStarts());
-		values.put(COL_LANGUAGE, book.getLanguage());
-		values.put(COL_IMGPATH, book.getImgpath());
-		values.put(COL_BOOKPATH, book.getBookpath());
-		values.put(COL_DESCRIPTION, book.getDescription());
-		values.put(COL_FILESIZE, book.getFilesize());
-		values.put(COL_LASTREADTIME, book.getLastReadTime());
-		values.put(COL_LASTUPADATETIME, book.getLastUpadateTime());
-		values.put(COL_CHARSET, book.getCharset());
-		values.put(COL_FONT, book.getFont());
-		values.put(COL_FONTSIZE, book.getFontSize());
-		values.put(COL_CURINDEX, book.getCurIndex());
-		db.insertOrThrow(TABLE_NAME, null, values);
+		values.put(BookTableConfig.COL_BOOKNAME, book.getBookname());
+		values.put(BookTableConfig.COL_AUTHOR, book.getAuthor());
+		values.put(BookTableConfig.COL_PUBLISHED, book.getPublished());
+		values.put(BookTableConfig.COL_PUBLISHER, book.getPublisher());
+		values.put(BookTableConfig.COL_SELLER, book.getSeller());
+		values.put(BookTableConfig.COL_CATEGORY, book.getCategory());
+		values.put(BookTableConfig.COL_BOOKTYPE, book.getBooktype());
+		values.put(BookTableConfig.COL_STARTS, book.getStarts());
+		values.put(BookTableConfig.COL_LANGUAGE, book.getLanguage());
+		values.put(BookTableConfig.COL_IMGPATH, book.getImgpath());
+		values.put(BookTableConfig.COL_BOOKPATH, book.getBookpath());
+		values.put(BookTableConfig.COL_DESCRIPTION, book.getDescription());
+		values.put(BookTableConfig.COL_FILESIZE, book.getFilesize());
+		values.put(BookTableConfig.COL_LASTREADTIME, book.getLastReadTime());
+		values.put(BookTableConfig.COL_LASTUPADATETIME, book.getLastUpadateTime());
+		values.put(BookTableConfig.COL_CHARSET, book.getCharset());
+		values.put(BookTableConfig.COL_FONT, book.getFont());
+		values.put(BookTableConfig.COL_FONTSIZE, book.getFontSize());
+		values.put(BookTableConfig.COL_CURINDEX, book.getCurIndex());
+		db.insertOrThrow(BookTableConfig.TABLE_NAME, null, values);
 	}
 	
 	/**
@@ -84,31 +83,39 @@ public class BooksDao {
 	 */
 	public void updateBook(int id, Book book) {
 		ContentValues values = new ContentValues();
-		if (book.getBookname() != null) values.put(COL_BOOKNAME, book.getBookname());
-		if (book.getAuthor() != null) values.put(COL_AUTHOR, book.getAuthor());
-		if (book.getPublished() != null) values.put(COL_PUBLISHED, book.getPublished());
-		if (book.getPublisher() != null) values.put(COL_PUBLISHER, book.getPublisher());
-		if (book.getSeller() != null) values.put(COL_SELLER, book.getSeller());
-		if (book.getSeller() != null) values.put(COL_CATEGORY, book.getCategory());
-		if (book.getBooktype() != null) values.put(COL_BOOKTYPE, book.getBooktype());
-		if (book.getStarts() > -1) values.put(COL_STARTS, book.getStarts());
-		if (book.getLanguage() != null) values.put(COL_LANGUAGE, book.getLanguage());
-		if (book.getImgpath() != null) values.put(COL_IMGPATH, book.getImgpath());
-		if (book.getBookpath() != null) values.put(COL_BOOKPATH, book.getBookpath());
-		if (book.getDescription() != null) values.put(COL_DESCRIPTION, book.getDescription());
-		if (book.getFilesize() > 0) values.put(COL_FILESIZE, book.getFilesize());
-		if (book.getLastReadTime() > 0) values.put(COL_LASTREADTIME, book.getLastReadTime());
-		if (book.getLastUpadateTime() > 0) values.put(COL_LASTUPADATETIME, book.getLastUpadateTime());
-		if (book.getCharset() != null) values.put(COL_CHARSET, book.getCharset());
-		if (book.getFont() != null) values.put(COL_FONT, book.getFont());
-		if (book.getFontSize() > 0) values.put(COL_FONTSIZE, book.getFontSize());
-		if (book.getCurIndex() > 0) values.put(COL_CURINDEX, book.getCurIndex());
-		db.update(TABLE_NAME, values, ID + " = ? ", new String[]{String.valueOf(id)});
+		values.put(BookTableConfig.COL_BOOKNAME, book.getBookname());
+		values.put(BookTableConfig.COL_AUTHOR, book.getAuthor());
+		values.put(BookTableConfig.COL_PUBLISHED, book.getPublished());
+		values.put(BookTableConfig.COL_PUBLISHER, book.getPublisher());
+		values.put(BookTableConfig.COL_SELLER, book.getSeller());
+		values.put(BookTableConfig.COL_CATEGORY, book.getCategory());
+		values.put(BookTableConfig.COL_BOOKTYPE, book.getBooktype());
+		values.put(BookTableConfig.COL_STARTS, book.getStarts());
+		values.put(BookTableConfig.COL_LANGUAGE, book.getLanguage());
+		values.put(BookTableConfig.COL_IMGPATH, book.getImgpath());
+		values.put(BookTableConfig.COL_BOOKPATH, book.getBookpath());
+		values.put(BookTableConfig.COL_DESCRIPTION, book.getDescription());
+		values.put(BookTableConfig.COL_FILESIZE, book.getFilesize());
+		values.put(BookTableConfig.COL_LASTREADTIME, book.getLastReadTime());
+		values.put(BookTableConfig.COL_LASTUPADATETIME, book.getLastUpadateTime());
+		values.put(BookTableConfig.COL_CHARSET, book.getCharset());
+		values.put(BookTableConfig.COL_FONT, book.getFont());
+		values.put(BookTableConfig.COL_FONTSIZE, book.getFontSize());
+		values.put(BookTableConfig.COL_CURINDEX, book.getCurIndex());
+		db.update(BookTableConfig.TABLE_NAME, values, BookTableConfig.ID + " = ? ", new String[]{String.valueOf(id)});
 	}
 	
 	public Cursor queryBookList()  {
-		return db.query(true, TABLE_NAME, null, null, null, null, null,
-				BookTableConfig.COL_LASTREADTIME + " desc", " 0, 1");
+		return db.query(true, BookTableConfig.TABLE_NAME, null, null, null, null, null,
+				BookTableConfig.COL_LASTREADTIME + " desc", null);
+	}
+	
+	public void deleteAllBooks() {
+		db.delete(BookTableConfig.TABLE_NAME,null ,null);
+	}
+	
+	public void deleteSingleBook(long id) {
+		db.delete(BookTableConfig.TABLE_NAME, "_id = ?", new String[]{String.valueOf(id)});
 	}
 	
 	/**
@@ -135,12 +142,12 @@ public class BooksDao {
 	 * @return
 	 */
 	public Cursor searchBooks() {
-		return db.query(TABLE_NAME, null, null, null, null, null,
-				COL_LASTREADTIME + " desc ");
+		return db.query(BookTableConfig.TABLE_NAME, null, null, null, null, null,
+				BookTableConfig.COL_LASTREADTIME + " desc ");
 	}
 
 	public int getBookId(Book book) {
-		Cursor c = db.query(true, TABLE_NAME, new String[] { ID }, COL_BOOKPATH
+		Cursor c = db.query(true, BookTableConfig.TABLE_NAME, new String[] { BookTableConfig.ID }, BookTableConfig.COL_BOOKPATH
 				+ " = ? ", new String[] { book.getBookpath() }, null, null,
 				null, " 0, 1");
 		c.moveToFirst();

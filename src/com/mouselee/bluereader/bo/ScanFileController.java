@@ -54,7 +54,9 @@ public class ScanFileController {
 	public List<Book> scanDirector(String scanRoot) {
 		List<Book> list = new ArrayList<Book>();
 		traverseDir(new File(BookConfig.BASIC_DIRECTOR), list);
-		BooksDao.getInstance(context).addBookList(list);
+		BooksDao dao = BooksDao.getInstance(context);
+		dao.deleteAllBooks();
+		dao.addBookList(list);
 		return list;
 	}
 
