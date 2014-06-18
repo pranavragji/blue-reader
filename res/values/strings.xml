@@ -1,6 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">BlueReader</string>
-	<string name="editbook">删除</string>
-	<string name="bookstore">网络书库</string>
+    <string name="editbook">删除</string>
+    <string name="bookstore">网络书库</string>
+    <string name="title_activity_reader">ReaderActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

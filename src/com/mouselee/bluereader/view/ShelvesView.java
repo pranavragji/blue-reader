@@ -17,6 +17,7 @@
 package com.mouselee.bluereader.view;
 
 import com.mouselee.bluereader.R;
+import com.mouselee.bluereader.drawable.SpotlightDrawable;
 
 import android.widget.GridView;
 import android.content.Context;
@@ -26,33 +27,32 @@ import android.util.AttributeSet;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.drawable.StateListDrawable;
+import android.graphics.drawable.Drawable;
+import com.mouselee.bluereader.drawable.TransitionDrawable;
+import android.view.ViewConfiguration;
+
 
 public class ShelvesView extends GridView {
     private Bitmap mShelfBackground;
-    private int mWidth;
-	private int mHeight;
-	private int mPaddingLeft;
-	private int mPaddingTop;
-	private int mPaddingRight;
-	private int mPaddingBottom;
-	
-    private Rect backgroundDst;
-    private Paint mPaint;
+    private int mShelfWidth;
+    private int mShelfHeight;
 
     public ShelvesView(Context context) {
         super(context);
+        init(context);
     }
 
     public ShelvesView(Context context, AttributeSet attrs) {
         super(context, attrs);
         load(context, attrs, 0);
+		init(context);
     }
 
     public ShelvesView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         load(context, attrs, defStyle);
+        init(context);
     }
 
     private void load(Context context, AttributeSet attrs, int defStyle) {
@@ -62,50 +62,68 @@ public class ShelvesView extends GridView {
         final int background = a.getResourceId(R.styleable.ShelvesView_shelfBackground, 0);
         final Bitmap shelfBackground = BitmapFactory.decodeResource(resources, background);
         if (shelfBackground != null) {
+            mShelfWidth = shelfBackground.getWidth();
+            mShelfHeight = shelfBackground.getHeight();
             mShelfBackground = shelfBackground;
         }
-        backgroundDst = new Rect();
-   		mPaint = new Paint();
+
         a.recycle();
     }
-    
-    
-    /* (non-Javadoc)
-   	 * @see android.widget.AbsListView#onLayout(boolean, int, int, int, int)
-   	 */
-   	@Override
-   	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-   		super.onLayout(changed, l, t, r, b);
-   		mWidth = getWidth();
-   		mHeight = getHeight();
-   		mPaddingLeft = getPaddingLeft();
-   		mPaddingTop = getPaddingTop();
-   		mPaddingRight = getPaddingRight();
-   		mPaddingBottom = getPaddingBottom();
-   		
-   	}
+
+    private void init(Context context) {
+        StateListDrawable drawable = new StateListDrawable();
+
+        SpotlightDrawable start = new SpotlightDrawable(context, this);
+        start.disableOffset();
+        SpotlightDrawable end = new SpotlightDrawable(context, this, R.drawable.spotlight_blue);
+        end.disableOffset();
+        TransitionDrawable transition = new TransitionDrawable(start, end);
+        drawable.addState(new int[] { android.R.attr.state_pressed },
+                transition);
+
+        final SpotlightDrawable normal = new SpotlightDrawable(context, this);
+        drawable.addState(new int[] { }, normal);
+
+        normal.setParent(drawable);
+        transition.setParent(drawable);
+
+        setSelector(drawable);
+        setDrawSelectorOnTop(false);
+    }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
         final int count = getChildCount();
-        final int colCount = getNumColumns();
-        int lineCount = (count + getNumColumns() - 1)/getNumColumns();
-        int top = count > 0 ? getChildAt(0).getTop() : 0;
-        for (int i = 0; i < lineCount; i++) {
-        	int bottom  = count > 0 ? getChildAt(i * colCount).getBottom() : 0;
-        	drawShelf(canvas, top, bottom);
-        	top = bottom + 1;
+        final int top = count > 0 ? getChildAt(0).getTop() : 0;
+        final int shelfWidth = mShelfWidth;
+        final int shelfHeight = mShelfHeight;
+        final int width = getWidth();
+        final int height = getHeight();
+        final Bitmap background = mShelfBackground;
+
+        for (int x = 0; x < width; x += shelfWidth) {  
+            for (int y = top; y < height; y += shelfHeight) {
+                canvas.drawBitmap(background, x, y, null);
+            }
         }
 
         super.dispatchDraw(canvas);
     }
-    
-    private void drawShelf(Canvas canvas, int top, int bottom) {
-    	backgroundDst.left = 0;
-	   	backgroundDst.top = top;
-	   	backgroundDst.right = mWidth;
-	   	backgroundDst.bottom = bottom;
-    	canvas.drawBitmap(mShelfBackground, null, backgroundDst, mPaint);  
-    }
 
+    
+
+    @Override
+    public void setPressed(boolean pressed) {
+        super.setPressed(pressed);
+
+        final Drawable current = getSelector().getCurrent();
+        if (current instanceof TransitionDrawable) {
+            if (pressed) {
+                ((TransitionDrawable) current).startTransition(
+                        ViewConfiguration.getLongPressTimeout());
+            } else {
+                ((TransitionDrawable) current).resetTransition();
+            }
+        }
+    }
 }

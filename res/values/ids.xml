@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="book_id" type="id">bookId</item>
+    <item name="book_path" type="id">bookPath</item>
+
+</resources>

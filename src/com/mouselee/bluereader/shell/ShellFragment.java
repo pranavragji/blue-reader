@@ -3,13 +3,22 @@
  */
 package com.mouselee.bluereader.shell;
 
+import com.mouselee.bluereader.R;
+import com.mouselee.bluereader.view.ShelvesView;
+
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * @author kang
  *
  */
 public class ShellFragment extends CursorFragment {
+	
+	private ShelvesView shelvesView;
+	private ShelfAdapter shelfAdapter;
 	
 	public static ShellFragment newInstance(String tag) {
 		ShellFragment f = new ShellFragment();
@@ -23,40 +32,36 @@ public class ShellFragment extends CursorFragment {
 
 	@Override
 	public void refreshDate() {
-		// TODO Auto-generated method stub
-		
+		shelfAdapter.changeCursor(valuesCursor);
+		shelfAdapter.notifyDataSetChanged();
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
 
-
-
 	/* (non-Javadoc)
-	 * @see android.support.v4.app.Fragment#onDestroyView()
+	 * @see android.support.v4.app.Fragment#onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public void onDestroyView() {
-		// TODO Auto-generated method stub
-		super.onDestroyView();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		shelvesView = (ShelvesView) inflater.inflate(R.layout.shelf_shelf_content, container, false);
+		shelfAdapter = new ShelfAdapter(getActivity(), valuesCursor); 
+		shelvesView.setAdapter(shelfAdapter);
+		return shelvesView;
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.Fragment#onStart()
 	 */
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
+		refreshDate();
 		super.onStart();
 	}
 	

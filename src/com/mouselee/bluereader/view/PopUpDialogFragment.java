@@ -23,7 +23,7 @@ public class PopUpDialogFragment extends android.support.v4.app.DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			setStyle(STYLE_NO_FRAME, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
+			setStyle(STYLE_NO_FRAME, android.R.style.Theme_Translucent_NoTitleBar);
     }
     
     public static PopUpDialogFragment newInstance(int title) {  
