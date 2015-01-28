@@ -26,6 +26,7 @@ public class BookCore {
 	private Charset mCharset;
 	private int showWidth;
 	private int[] curLines = new int[23];
+	private long beginParaPos, endParaPos;
 	
 	public BookCore(String path) {
 		try {
@@ -39,22 +40,36 @@ public class BookCore {
 		if (mEngine == null) {
 			return null;
 		}
-		long beginPara = 0;
+		
+		
+		
 		try {
-			beginPara = temp.getParagraphPosition(pos);
+			Long[] blockBLs = temp.currentBlockPosition(pos);
+			for (int i =0, size = blockBLs.length; i < size; i ++) {
+				if (blockBLs[i] != null && blockBLs[i] > pos) {
+					if (i > 0) {
+						beginParaPos = blockBLs[i - 1];
+					} else {
+						beginParaPos = 0;
+					}
+					endParaPos = blockBLs[i];
+					break;
+				}
+				
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		byte[] data = new byte[1024 * 4];
+		byte[] data = new byte[(int) (endParaPos - beginParaPos)];
 		try {
-			mEngine.getCurParagraph(beginPara, data);
+			mEngine.getCurParagraph(beginParaPos, data);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
-		long offset = beginPara;
 		String str = new String(data, mCharset);
+		long offset = getCharPosOfPara(pos, beginParaPos, endParaPos, str.length());
 		Paint paint = new Paint();
 		float[] measuredWidth = new float[1];
 		int start  = 0;
@@ -79,15 +94,20 @@ public class BookCore {
 				list.add(str.substring(start, breakIndex));
 			}
 			
-			offset += start;
+			if (offset == start) {
+				
+			}
 			
-			
-		} while (start < length -1);
+		} while (start < length);
 		String[] result = new String[list.size()];
 		list.toArray(result);
 		list.clear();
 		return result;
 		
+	}
+	
+	private long getCharPosOfPara(long bytePos, long beginBytePos, long endBytePos, int strLength) {
+		return (bytePos - beginBytePos) * strLength / (endBytePos - beginBytePos);
 	}
 	
 }

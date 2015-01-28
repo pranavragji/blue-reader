@@ -83,6 +83,7 @@ public class LBTempProvider {
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
 			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
+				temp.add(flag);
 				currBlockEnd = mAccess.getFilePointer();
 				break;
 			} else if (flag > blockBegin) {
