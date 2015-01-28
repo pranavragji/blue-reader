@@ -45,8 +45,6 @@ public class ScanFileController {
 	}
 
 	/**
-	 * 
-	 *
 	 * @Author Aaron Lee at 下午7:44:24 2013-8-23
 	 * @param scanRoot
 	 * @return
