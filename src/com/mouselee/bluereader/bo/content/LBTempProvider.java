@@ -9,6 +9,8 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.view.View;
+
 /**
  * @author zuokang.li
  *
@@ -24,8 +26,9 @@ public class LBTempProvider {
 	private long currPosition;
 	
 	private int curBlockPosition;
-	private long currBlockBegin;
-	private long currBlockEnd;
+	private int currBlockIndex;
+	
+	private long blockBegin, blockEnd;
 
 	public LBTempProvider(String tempPath) throws FileNotFoundException {
 		super();
@@ -49,10 +52,23 @@ public class LBTempProvider {
 		return prev;
 	}
 	
+	public boolean invalidatePos(long curPos) throws IOException {
+		if (curPos >= mAccess.length()) {
+			return false;
+		}
+		currBlockIndex = getBlockPos(curPos) - 1 ;
+		return true;
+	}
+	
+	@Deprecated
 	public synchronized Long[] currentBlockPosition(long curIndex) throws IOException {
+		if (curIndex >= mAccess.length()) {
+			return null;
+		}
 		mAccess.seek(0);
 		long  flag = -1L;
 		int blockPos = getBlockPos(curIndex);
+		currBlockIndex = blockPos;
 		long blockBegin = BLOCK_SIZE * (long)blockPos;
 		long blockEnd = BLOCK_SIZE * (long)(blockPos + 1);
 		List<Long> temp = new ArrayList<Long>();
@@ -60,7 +76,6 @@ public class LBTempProvider {
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
 			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
-				currBlockEnd = mAccess.getFilePointer();
 				break;
 			} else if (flag > blockBegin) {
 				temp.add(flag);
@@ -73,18 +88,25 @@ public class LBTempProvider {
 		return arr;
 	}
 	
-	public synchronized Long[] getBlockPositionFromId(int blockId) throws IOException {
+	public Long[] nextBlockPosition() throws IOException {
+		return getBlockPositionFromId(currBlockIndex + 1);
+	}
+	
+	public synchronized Long[] getBlockPositionFromId(int blockIndex) throws IOException {
+		long blockBegin = BLOCK_SIZE * (long)blockIndex;
+		if (blockBegin > mAccess.length()) {
+			return null;
+		}
+		long blockEnd = BLOCK_SIZE * (long)(blockIndex + 1);
 		mAccess.seek(0);
 		long  flag = -1L;
-		long blockBegin = BLOCK_SIZE * (long)blockId;
-		long blockEnd = BLOCK_SIZE * (long)(blockId + 1);
+		currBlockIndex = blockIndex;
 		List<Long> temp = new ArrayList<Long>();
 		byte[] buffer = new byte[8];
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
 			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
 				temp.add(flag);
-				currBlockEnd = mAccess.getFilePointer();
 				break;
 			} else if (flag > blockBegin) {
 				temp.add(flag);

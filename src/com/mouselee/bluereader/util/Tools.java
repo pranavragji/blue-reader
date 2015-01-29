@@ -5,6 +5,8 @@ package com.mouselee.bluereader.util;
 
 import java.io.File;
 
+import android.content.Context;
+
 /**
  * 
  * @author Aaron Lee
@@ -58,6 +60,46 @@ public class Tools {
 			endIndex = path.length();
 		}
 		return path.substring(beginIndex, endIndex);
+	}
+	
+	/**
+	 * @param size
+	 * @return
+	 */
+	public static float px2sp(Context context, float size) {
+	    final float scale = context.getResources().getDisplayMetrics().density;  
+	    if (size <= 0) {
+            size = 15;
+        }       
+        float realSize = (float) (size * (scale - 0.1));
+        return realSize;
+	}
+	
+	/** 
+     */  
+    public static int dip2px(Context context, float dpValue) {  
+        final float scale = context.getResources().getDisplayMetrics().density;  
+        return (int) (dpValue * scale + 0.5f);  
+    }  
+  
+    /** 
+     */  
+    public static int px2dip(Context context, float pxValue) {  
+        final float scale = context.getResources().getDisplayMetrics().density;  
+        return (int) (pxValue / scale + 0.5f);  
+    }
+	
+	/**
+	 * @param size
+	 * @return
+	 */
+	public static float sp2px(Context context, float size) {
+	    final float scale = context.getResources().getDisplayMetrics().density;  
+	    if (size <= 0) {
+	        size = 15;
+	    }	    
+	    float realSize = (float) (size / (scale - 0.1));
+	    return realSize;
 	}
 
 }
