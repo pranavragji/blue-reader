@@ -13,7 +13,7 @@ import android.os.Environment;
  */
 public class TempleFileConifgs {
 	
-	public static final String BUFFER_ROOT = Environment.getDataDirectory().getPath() + "/bluereader";
+	public static final String BUFFER_ROOT = Environment.getExternalStorageDirectory().getPath() + "/bluereader";
 	
 	public static final String TEMP_PATH = BUFFER_ROOT + "/temps";
 

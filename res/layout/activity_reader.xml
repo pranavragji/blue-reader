@@ -4,5 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mouselee.bluereader.act.ReaderActivity"
-    tools:ignore="MergeRootFrame" />
-
+    tools:ignore="MergeRootFrame" >
+    <TextView android:id="@+id/textContent"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
+</FrameLayout>

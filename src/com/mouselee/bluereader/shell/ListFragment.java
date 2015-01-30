@@ -4,12 +4,17 @@
 package com.mouselee.bluereader.shell;
 
 import com.mouselee.bluereader.R;
+import com.mouselee.bluereader.act.ReaderActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 /**
@@ -17,7 +22,7 @@ import android.widget.ListView;
  *
  */
 @SuppressLint("NewApi")
-public class ListFragment extends CursorFragment {
+public class ListFragment extends CursorFragment implements OnItemClickListener {
 	
 	private Activity mActivity;
 	private LayoutInflater inflater;
@@ -50,6 +55,7 @@ public class ListFragment extends CursorFragment {
 		lvwMain = (ListView) contentView;
 		adapter = new ListFrameAdapter(mActivity, valuesCursor);
 		lvwMain.setAdapter(adapter);
+		lvwMain.setOnItemClickListener(this);
 		return contentView;
 	}
 
@@ -67,6 +73,15 @@ public class ListFragment extends CursorFragment {
 	public void refreshDate() {
 		adapter.changeCursor(valuesCursor);
 		adapter.notifyDataSetChanged();
+		
+	}
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Intent intent = new Intent(mActivity, ReaderActivity.class);
+		startActivity(intent);
 		
 	}
 

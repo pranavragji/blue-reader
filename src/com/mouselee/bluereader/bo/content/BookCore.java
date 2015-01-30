@@ -3,6 +3,7 @@
  */
 package com.mouselee.bluereader.bo.content;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mouselee.bluereader.act.ReaderApplication;
+import com.mouselee.bluereader.util.TempleFileConifgs;
 import com.mouselee.bluereader.util.Tools;
 
 import android.graphics.Paint;
@@ -27,6 +29,7 @@ public class BookCore {
 	private static final char CHARCR = '\r';
 	private static final char CHARLB = '\n';
 
+	private String bookPath;
 	private EngineTxt mEngine;
 	private LBTempProvider temp;
 	private Charset mCharset;
@@ -43,6 +46,7 @@ public class BookCore {
 	
 	public BookCore(String path) {
 		try {
+			bookPath = path;
 			mEngine = new EngineTxt(path);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -58,11 +62,26 @@ public class BookCore {
 		textSize = Tools.sp2px(ReaderApplication.getApplication(), textSizeSp);
 	}
 	
+	public void setCharast(String set) {
+		mCharset = Charset.forName(set);
+	}
+	
 	public void refreshFontSetting() {
 		getLineCount(showHeight, textSize);
 		currPageContent = new String[lineCount];
 		prevPageContent = new String[lineCount];
 		nextPageContent = new String[lineCount];
+		
+		File temFile = TempleFileConifgs.getBookTempPath(0, "BookName", bookPath);
+		if (!temFile.exists()) {
+			new ExtraLBPositionsTask(bookPath, temFile.getPath(), mCharset.name()).extraing();;
+		}
+		try {
+			temp = new LBTempProvider(temFile.getPath());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public String[] parseCurrentPage(long pos) {
@@ -72,7 +91,7 @@ public class BookCore {
 		try {
 			temp.invalidatePos(pos);
 			List<String> content = new ArrayList<String>(lineCount);
-			Long[] blockBLs;
+			Integer[] blockBLs;
 			while((blockBLs = temp.nextBlockPosition()) != null) {	//最外循环，关于blocks的循环；
 				int blIndex = 0;
 				for (int size = blockBLs.length; blIndex < size; blIndex ++) { 
@@ -150,7 +169,7 @@ public class BookCore {
 		
 	}
 
-	private void parseParagraph(long pos, List<String> content, Long[] blockBLs,
+	private void parseParagraph(long pos, List<String> content, Integer[] blockBLs,
 			int blIndex) {
 		while(true) { //2循环，关于paragraph的循环
 			byte[] data = new byte[(int) (endParaPos - beginParaPos)];

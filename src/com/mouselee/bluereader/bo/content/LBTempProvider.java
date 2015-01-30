@@ -34,12 +34,13 @@ public class LBTempProvider {
 		super();
 		mAccess = new RandomAccessFile(tempPath, "r");
 	}
+	
 
 	@Deprecated
 	public synchronized long getParagraphPosition(long curIndex) throws IOException {
 		mAccess.seek(0);
 		long prev = -1L, flag = -1L;
-		byte[] buffer = new byte[8];
+		byte[] buffer = new byte[4];
 		while (true) {
 			flag = readLongValueOfTmpFile(buffer);
 			// begin to check if the flag position;
@@ -72,7 +73,7 @@ public class LBTempProvider {
 		long blockBegin = BLOCK_SIZE * (long)blockPos;
 		long blockEnd = BLOCK_SIZE * (long)(blockPos + 1);
 		List<Long> temp = new ArrayList<Long>();
-		byte[] buffer = new byte[8];
+		byte[] buffer = new byte[4];
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
 			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
@@ -88,21 +89,21 @@ public class LBTempProvider {
 		return arr;
 	}
 	
-	public Long[] nextBlockPosition() throws IOException {
+	public Integer[] nextBlockPosition() throws IOException {
 		return getBlockPositionFromId(currBlockIndex + 1);
 	}
 	
-	public synchronized Long[] getBlockPositionFromId(int blockIndex) throws IOException {
+	public synchronized Integer[] getBlockPositionFromId(int blockIndex) throws IOException {
 		long blockBegin = BLOCK_SIZE * (long)blockIndex;
 		if (blockBegin > mAccess.length()) {
 			return null;
 		}
 		long blockEnd = BLOCK_SIZE * (long)(blockIndex + 1);
 		mAccess.seek(0);
-		long  flag = -1L;
+		int  flag = -1;
 		currBlockIndex = blockIndex;
-		List<Long> temp = new ArrayList<Long>();
-		byte[] buffer = new byte[8];
+		List<Integer> temp = new ArrayList<Integer>();
+		byte[] buffer = new byte[4];
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
 			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
@@ -113,29 +114,29 @@ public class LBTempProvider {
 			}
 		}
 		currPosition = mAccess.getFilePointer();
-		Long[] arr = new Long[temp.size()];
+		Integer[] arr = new Integer[temp.size()];
 		temp.toArray(arr);
 		temp.clear();
 		return arr;
 	}
 
 	public synchronized long previousParagraphPosition() throws IOException {
-		if (currPosition >= 16L) {
-			mAccess.seek(currPosition - 16L);
-		} else {
-			mAccess.seek(0L);
-		}
-		byte[] buf = new byte[8];
-		return readLongValueOfTmpFile(buf);
-	}
-	
-	public synchronized long nextParagraphPosition() throws IOException {
 		if (currPosition >= 8L) {
 			mAccess.seek(currPosition - 8L);
 		} else {
 			mAccess.seek(0L);
 		}
-		byte[] buf = new byte[8];
+		byte[] buf = new byte[4];
+		return readLongValueOfTmpFile(buf);
+	}
+	
+	public synchronized long nextParagraphPosition() throws IOException {
+		if (currPosition >= 4L) {
+			mAccess.seek(currPosition - 4L);
+		} else {
+			mAccess.seek(0L);
+		}
+		byte[] buf = new byte[4];
 		return readLongValueOfTmpFile(buf);
 	}
 
@@ -149,9 +150,9 @@ public class LBTempProvider {
 		}
 	}
 
-	private long readLongValueOfTmpFile(byte[] buf) throws IOException {
-		if (mAccess.read(buf) == 8) {
-			return bytesToLong(buf);
+	private int readLongValueOfTmpFile(byte[] buf) throws IOException {
+		if (mAccess.read(buf) == 4) {
+			return bytesToInt(buf);
 		} else {
 			return -1;
 		}
@@ -167,6 +168,12 @@ public class LBTempProvider {
 		     + ((long)b[2] << 40) + ((long)b[3] << 32)
 		     + ((long)b[4] << 24) + ((long)b[5] << 16)
 		     + ((long)b[6] << 8) + b[7];
+
+	}
+	
+	private int bytesToInt(byte[] b) {
+		 return  ((int)b[0] << 24) + ((int)b[1] << 16)
+		     + ((int)b[2] << 8) + b[3];
 
 	}
 

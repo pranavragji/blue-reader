@@ -4,18 +4,22 @@
 package com.mouselee.bluereader.shell;
 
 import com.mouselee.bluereader.R;
+import com.mouselee.bluereader.act.ReaderActivity;
 import com.mouselee.bluereader.view.ShelvesView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * @author kang
  *
  */
-public class ShellFragment extends CursorFragment {
+public class ShellFragment extends CursorFragment implements OnItemClickListener {
 	
 	private ShelvesView shelvesView;
 	private ShelfAdapter shelfAdapter;
@@ -53,6 +57,7 @@ public class ShellFragment extends CursorFragment {
 		shelvesView = (ShelvesView) inflater.inflate(R.layout.shelf_shelf_content, container, false);
 		shelfAdapter = new ShelfAdapter(getActivity(), valuesCursor); 
 		shelvesView.setAdapter(shelfAdapter);
+		shelvesView.setOnItemClickListener(this);
 		return shelvesView;
 	}
 
@@ -63,6 +68,16 @@ public class ShellFragment extends CursorFragment {
 	public void onStart() {
 		refreshDate();
 		super.onStart();
+	}
+
+
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Intent intent = new Intent(getActivity(), ReaderActivity.class);
+		startActivity(intent);
+		
 	}
 	
 
