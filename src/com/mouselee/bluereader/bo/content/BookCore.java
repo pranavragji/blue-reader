@@ -171,8 +171,8 @@ public class BookCore {
 
 	private void parseParagraph(long pos, List<String> content, Integer[] blockBLs,
 			int blIndex) {
+		byte[] data = new byte[1024 * 4];
 		while(true) { //2循环，关于paragraph的循环
-			byte[] data = new byte[(int) (endParaPos - beginParaPos)];
 			try {
 				mEngine.getCurParagraph(beginParaPos, data);
 			} catch (IOException e) {
