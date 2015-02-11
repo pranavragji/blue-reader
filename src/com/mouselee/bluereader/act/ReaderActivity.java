@@ -11,6 +11,8 @@ import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.content.Loader;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.TextView;
 
 public class ReaderActivity extends Activity implements LoaderManager.LoaderCallbacks<String[]>  {
@@ -60,5 +62,15 @@ public class ReaderActivity extends Activity implements LoaderManager.LoaderCall
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private class UIHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			super.handleMessage(msg);
+		}
+		
+	} 
 
 }
