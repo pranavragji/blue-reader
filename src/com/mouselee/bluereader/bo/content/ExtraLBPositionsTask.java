@@ -64,7 +64,7 @@ public class ExtraLBPositionsTask {
 	 * @see java.lang.Runnable#run()
 	 */
 	public void extraing() {
-		long time1 = SystemClock.elapsedRealtime();
+//		long time1 = SystemClock.elapsedRealtime();
 		if (TextUtils.isEmpty(bookPath)) {
 			return;
 		}
@@ -94,8 +94,8 @@ public class ExtraLBPositionsTask {
 					e.printStackTrace();
 				}
 			}
-			long time2 = SystemClock.elapsedRealtime();
-			Log.d("aaron", "cost time :" + (time2 - time1));
+//			long time2 = SystemClock.elapsedRealtime();
+//			Log.d("aaron", "cost time :" + (time2 - time1));
 		}
 		
 

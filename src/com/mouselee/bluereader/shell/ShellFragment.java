@@ -76,6 +76,8 @@ public class ShellFragment extends CursorFragment implements OnItemClickListener
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		Intent intent = new Intent(getActivity(), ReaderActivity.class);
+		String path = (String) view.getTag(R.id.book_path);
+		intent.putExtra(ReaderActivity.KEY_BOOKPATH, path);
 		startActivity(intent);
 		
 	}

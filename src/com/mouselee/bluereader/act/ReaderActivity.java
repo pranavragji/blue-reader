@@ -9,16 +9,22 @@ import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 public class ReaderActivity extends Activity implements LoaderManager.LoaderCallbacks<String[]>  {
 	
+	public static final String KEY_BOOKPATH = "bookPath";
 	private TextView textContent;
 	
 	private BookCore mBC;
 	private float fontSizeSp;
+	
+	private Handler readerHander = new Handler();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,12 +32,25 @@ public class ReaderActivity extends Activity implements LoaderManager.LoaderCall
 		setContentView(R.layout.activity_reader);
 		textContent = (TextView) findViewById(R.id.textContent);
 		fontSizeSp = 16.f;
-		mBC = new BookCore("/sdcard/bluereader/File6.txt");
-		mBC.setTextSize(fontSizeSp);
-		mBC.setShowSize(textContent.getWidth(), textContent.getHeight());
-		mBC.setCharast("GBK");
-		LoaderManager lm = getLoaderManager();
-		lm.initLoader(1, null, this).forceLoad();
+		Intent intent = getIntent();
+		final String path = intent.getStringExtra(KEY_BOOKPATH);
+		if (TextUtils.isEmpty(path)) {
+			finish();
+			return;
+		}
+		readerHander.post(new Runnable() {
+			
+			@Override
+			public void run() {
+				mBC = new BookCore(path);
+				mBC.setTextSize(fontSizeSp);
+				mBC.setShowSize(textContent.getWidth(), textContent.getHeight());
+				mBC.setCharast("GBK");
+				LoaderManager lm = getLoaderManager();
+				lm.initLoader(1, null, ReaderActivity.this).forceLoad();
+				
+			}
+		});
 	}
 	
 

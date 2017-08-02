@@ -1,5 +1,6 @@
 package com.mouselee.bluereader.reader;
 
+import android.app.Activity;
 import android.content.AsyncTaskLoader;
 import android.content.Context;
 
@@ -27,6 +28,7 @@ public class PageContentLoader extends AsyncTaskLoader<String[]> {
 	protected void onForceLoad() {
 		// TODO Auto-generated method stub
 		super.onForceLoad();
+		Activity
 	}
 
 

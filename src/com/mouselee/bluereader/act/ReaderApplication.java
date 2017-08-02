@@ -23,4 +23,12 @@ public class ReaderApplication extends Application {
 	public static Application getApplication() {
 		return sApplication;
 	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		sApplication = null;
+		super.finalize();
+	}
+	
+	
 }

@@ -105,7 +105,7 @@ public class LBTempProvider {
 		List<Integer> temp = new ArrayList<Integer>();
 		byte[] buffer = new byte[4];
 		while ((flag = readLongValueOfTmpFile(buffer)) > -1) {
-			flag = readLongValueOfTmpFile(buffer);
+//			flag = readLongValueOfTmpFile(buffer);
 			if (flag > blockEnd) {
 				temp.add(flag);
 				break;

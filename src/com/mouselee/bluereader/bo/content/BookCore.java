@@ -123,50 +123,6 @@ public class BookCore {
 		}
 		
 		return null;
-		
-		/*try {
-			Long[] blockBLs = temp.currentBlockPosition(pos);
-			int blsIndex = 0;
-			for (int size = blockBLs.length; blsIndex < size; blsIndex ++) {
-				if (blockBLs[blsIndex] != null && blockBLs[blsIndex] > pos) {
-					if (blsIndex > 0) {
-						beginParaPos = blockBLs[blsIndex - 1];
-					} else {
-						beginParaPos = 0;
-					}
-					endParaPos = blockBLs[blsIndex];
-					break;
-				}
-				
-			}
-			byte[] data = new byte[(int) (endParaPos - beginParaPos)];
-			try {
-				mEngine.getCurParagraph(beginParaPos, data);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			}
-			String str = new String(data, mCharset);
-			long offset = getCharPosOfPara(pos, beginParaPos, endParaPos, str.length());
-			List<String> list = getPageLinesPosWithOffset(str, offset);
-			
-			if (list.size() < lineCount) {
-				beginParaPos = endParaPos;
-				if (blsIndex < blockBLs.length) {
-					endParaPos = blockBLs[blsIndex + 1];
-				} else {
-					// If it is read to the end of the block, get Next Block;
-				}
-			}
-			String[] result = new String[list.size()];
-			list.toArray(result);
-			list.clear();
-			return result;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;*/
-		
 	}
 
 	private void parseParagraph(long pos, List<String> content, Integer[] blockBLs,
@@ -185,11 +141,11 @@ public class BookCore {
 			content.addAll(list);
 			if (content.size() < lineCount) {
 				long tem = endParaPos;
-				if (blIndex < blockBLs.length) {
+				if (blIndex < blockBLs.length - 1) {
 					endParaPos = blockBLs[blIndex + 1];
 				} else {
 					// If it is read to the end of the block, get Next Block;
-					break;
+					break;  
 				}
 				beginParaPos = tem;
 			} else {
@@ -219,29 +175,12 @@ public class BookCore {
 				start += (bPoint + 1);
 			}
 			
-			/*int breakIndex = str.indexOf("\r\n", start);
-			if (breakIndex <= 0 || breakIndex >= bPoint) {
-				breakIndex = str.indexOf('\n', start);
-			} 
-			if (breakIndex <= 0 || breakIndex >= bPoint) {
-				breakIndex = str.indexOf('\r', start);
-			} 
-			
-			if (breakIndex <= 0 || breakIndex >= bPoint) {
-				list.add(str.substring(start, bPoint -1));
-				start += bPoint;
-			} else {
-				//If the breakIndex is between the start and bpoint, We need to break it.
-				list.add(str.substring(start, breakIndex));
-				start += (breakIndex + 1);
-			}*/
-			
 			if (offset <= start) {
 				if (offset == start) {
 					// Start to fill line index into lineIndexes[];
 					curPageCharPos = lineBegin;
 				}
-				list.add(content.substring(lineBegin, start));
+				list.add(content.substring(lineBegin, start-1));
 			}
 			
 			if (list.size() >= requireLineCount) {
@@ -285,7 +224,7 @@ public class BookCore {
 	}
 	
 	private long getCharPosOfPara(long bytePos, long beginBytePos, long endBytePos, int strLength) {
-		if (bytePos > endBytePos) {
+		if (bytePos > endBytePos || endBytePos == beginBytePos) {
 			return -1;
 		}
 		return (bytePos - beginBytePos) * strLength / (endBytePos - beginBytePos);
