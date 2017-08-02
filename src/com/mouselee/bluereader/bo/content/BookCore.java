@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mouselee.bluereader.act.ReaderApplication;
+import com.mouselee.bluereader.util.Log;
 import com.mouselee.bluereader.util.TempleFileConifgs;
 import com.mouselee.bluereader.util.Tools;
 
@@ -24,6 +25,8 @@ import android.sax.StartElementListener;
  *
  */
 public class BookCore {
+	
+	private static final String TAG = "BookCore";
 	
 	private static final String STRCRLB = "\r\n";
 	private static final char CHARCR = '\r';
@@ -113,6 +116,7 @@ public class BookCore {
 				}
 				
 			}
+			Log.d(TAG, "content \n" +content.toString());
 			String[] result = new String[content.size()];
 			content.toArray(result);
 			content.clear();
@@ -127,8 +131,8 @@ public class BookCore {
 
 	private void parseParagraph(long pos, List<String> content, Integer[] blockBLs,
 			int blIndex) {
+		byte[] data = new byte[1024 * 4];
 		while(true) { //2循环，关于paragraph的循环
-			byte[] data = new byte[(int) (endParaPos - beginParaPos)];
 			try {
 				mEngine.getCurParagraph(beginParaPos, data);
 			} catch (IOException e) {
@@ -165,7 +169,7 @@ public class BookCore {
 		do {
 			int bPoint = paint.breakText(content, start, length, true, showWidth, null);
 			lineBegin = start;
-			String str = content.substring(start, bPoint);
+			String str = content.substring(start, start + bPoint);
 			int breakIndex = str.indexOf(STRCRLB);
 			if (breakIndex > 0) {
 				start += (breakIndex + 2);
@@ -180,7 +184,9 @@ public class BookCore {
 					// Start to fill line index into lineIndexes[];
 					curPageCharPos = lineBegin;
 				}
-				list.add(content.substring(lineBegin, start-1));
+				Log.d(TAG, "get current content index %d - %d", lineBegin, start -1);
+				String strContent = content.substring(lineBegin, start -1).replace("\r", "").replace("\n", "");
+				list.add(strContent);
 			}
 			
 			if (list.size() >= requireLineCount) {

@@ -171,9 +171,11 @@ public class LBTempProvider {
 
 	}
 	
-	private int bytesToInt(byte[] b) {
-		 return  ((int)b[0] << 24) + ((int)b[1] << 16)
-		     + ((int)b[2] << 8) + b[3];
+	private int bytesToInt(byte[] src) {
+		return (((src[0] & 0xff) << 24) |
+                ((src[1] & 0xff) << 16) |
+                ((src[2] & 0xff) <<  8) |
+                ((src[3] & 0xff) <<  0));
 
 	}
 

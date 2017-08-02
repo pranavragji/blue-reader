@@ -66,7 +66,7 @@ public class ReaderActivity extends Activity implements LoaderManager.LoaderCall
 	@Override
 	public void onLoadFinished(Loader<String[]> loader, String[] data) {
 		for (String str : data) {
-			textContent.setText(str + "\n");
+			textContent.append(str + "\n");
 		}
 		
 	}

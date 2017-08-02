@@ -3,6 +3,9 @@
  */
 package com.mouselee.bluereader.act;
 
+import com.mouselee.bluereader.util.Log;
+import com.mouselee.bluereader.util.Logger;
+
 import android.app.Application;
 
 /**
@@ -18,6 +21,7 @@ public class ReaderApplication extends Application {
 		
 		super.onCreate();
 		sApplication = this;
+		Log.setDebug(true, Logger.VERBOSE);
 	}
 
 	public static Application getApplication() {

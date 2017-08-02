@@ -20,7 +20,7 @@ public class PageContentLoader extends AsyncTaskLoader<String[]> {
 		
 		
 		mBC.refreshFontSetting();
-		return mBC.parseCurrentPage(0);
+		return mBC.parseCurrentPage(102);
 //		return null;
 	}
 
